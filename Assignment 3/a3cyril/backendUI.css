@@ -1,0 +1,76 @@
+/* pumpkin mode */
+body {
+        color : rgb(255, 184, 77);
+        font-family: Arial, Helvetica, sans-serif;
+	background-color: rgb(66, 70, 77);
+}
+div {
+	background-color: rgb(45, 50, 56);
+}
+hr {
+	border-color: rgb(255, 148, 77);
+}
+
+/* pumpkin text */
+h1 {
+	text-align: center;
+	color: rgb(255, 184, 77);
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+h2 {
+	text-align: center;
+	color : rgb(255, 184, 77);
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/* box formats */
+.headDiv{
+	background-color: rgb(45, 50, 56);
+}
+.centre {
+	max-width: 1000px;
+	margin: auto;
+	border-width: 1px;
+        border-style: solid;
+}
+.steele {
+	text-align: center;
+	background-color: rgb(206, 209, 212);
+	background: linear-gradient(0deg,rgb(66,70,77),rgb(60,67,70));
+	margin: 0;
+        padding: 6px 0px;
+	max-width: 1000px;
+        margin: auto;
+	font-size: 20px;
+	border-width: 1px;
+	border-style: solid;
+}
+
+/* tables */
+table {
+	align: center;
+	border-style:solid;
+	border-width:2px;
+	border-color: rgb(255, 148, 77);
+}
+
+/* button (code forked from: https://www.w3schools.com/css/css3_buttons.asp) */
+input {
+	background-color: rgb(255, 148, 77);
+	border: none;
+	color: black;
+	padding: 10px 19px;
+	text-align: center;
+	display: inline-block;
+	font-size: 16px;
+	margin: 2px 1px;
+	cursor: pointer;
+	-webkit-transition-duration: 0.4s;
+	transition-duration: 0.4s;
+}
+
+input:hover {
+	background-color: rgb(255, 117, 26);
+	color: white;
+}

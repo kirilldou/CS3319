@@ -1,0 +1,284 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SELECT tripName FROM busTrip
+--------------
+
++----------------------------+
+| tripName                   |
++----------------------------+
+| Castles of Germany         |
+| Tuscany Sunsets            |
+| California Wines           |
+| Beaches Galore             |
+| Cottage Country            |
+| Arrivaderci Roma           |
+| Shetland and Orkney        |
+| Disney World and Sea World |
+| Athos: The Holy Mountain   |
+| You're Going to Brazil     |
++----------------------------+
+10 rows in set (0.00 sec)
+
+--------------
+SELECT DISTINCT lNamePers FROM passenger
+--------------
+
++-----------+
+| lNamePers |
++-----------+
+| Simpson   |
+| Flanders  |
+| Klum      |
+| Scott     |
+| Schrute   |
+| Beesly    |
+| Bratton   |
+| Salvatore |
++-----------+
+8 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM busTrip ORDER BY tripName
+--------------
+
++--------+----------------------------+------------+------------+-------------+-------------+
+| tripID | tripName                   | startDate  | endDate    | destination | superLPlate |
++--------+----------------------------+------------+------------+-------------+-------------+
+|      6 | Arrivaderci Roma           | 2022-07-05 | 2022-07-15 | Italy       | TAXI111     |
+|      9 | Athos: The Holy Mountain   | 2022-07-07 | 2022-07-27 | Greece      | UWO3311     |
+|      4 | Beaches Galore             | 2022-04-04 | 2022-04-14 | Bermuda     | TAXI222     |
+|      3 | California Wines           | 2022-05-05 | 2022-05-10 | USA         | VAN1111     |
+|      1 | Castles of Germany         | 2022-01-01 | 2022-01-17 | Germany     | VAN1111     |
+|      5 | Cottage Country            | 2022-06-01 | 2022-06-22 | Canada      | CAND123     |
+|      8 | Disney World and Sea World | 2022-06-10 | 2022-06-20 | USA         | VAN1111     |
+|      7 | Shetland and Orkney        | 2022-09-09 | 2022-09-29 | UK          | TAXI111     |
+|      2 | Tuscany Sunsets            | 2022-03-03 | 2022-03-14 | Italy       | TAXI222     |
+|     10 | You're Going to Brazil     | 2022-09-11 | 2022-09-16 | Brazil      | TAXI333     |
++--------+----------------------------+------------+------------+-------------+-------------+
+10 rows in set (0.00 sec)
+
+--------------
+SELECT tripName, destination, startDate FROM busTrip WHERE startDate >= '2022-04-30'
+--------------
+
++----------------------------+-------------+------------+
+| tripName                   | destination | startDate  |
++----------------------------+-------------+------------+
+| California Wines           | USA         | 2022-05-05 |
+| Cottage Country            | Canada      | 2022-06-01 |
+| Arrivaderci Roma           | Italy       | 2022-07-05 |
+| Shetland and Orkney        | UK          | 2022-09-09 |
+| Disney World and Sea World | USA         | 2022-06-10 |
+| Athos: The Holy Mountain   | Greece      | 2022-07-07 |
+| You're Going to Brazil     | Brazil      | 2022-09-11 |
++----------------------------+-------------+------------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT passenger.fNamePers, passenger.lNamePers, doB FROM passenger INNER JOIN passport ON passenger.superNum=passport.passID WHERE passport.passCountry="USA"
+--------------
+
++-----------+-----------+------------+
+| fNamePers | lNamePers | doB        |
++-----------+-----------+------------+
+| Homer     | Simpson   | 1970-02-19 |
+| Marge     | Simpson   | 1972-08-12 |
+| Bart      | Simpson   | 2001-05-12 |
+| Lisa      | Simpson   | 2004-03-19 |
+| Maggie    | Simpson   | 2012-09-17 |
+| Ned       | Flanders  | 1950-06-11 |
+| Todd      | Flanders  | 1940-06-24 |
++-----------+-----------+------------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT busTrip.tripName, bus.capacity FROM busTrip INNER JOIN bus ON busTrip.superLPlate=bus.lPlateNo WHERE startDate >= '2022-04-01'
+AND startDate <='2022-09-01'
+--------------
+
++----------------------------+----------+
+| tripName                   | capacity |
++----------------------------+----------+
+| California Wines           |       10 |
+| Beaches Galore             |        3 |
+| Cottage Country            |       50 |
+| Arrivaderci Roma           |        4 |
+| Disney World and Sea World |       10 |
+| Athos: The Holy Mountain   |       62 |
++----------------------------+----------+
+6 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM passenger JOIN passport ON passenger.superNum=passport.passID WHERE passport.expiryDate < ADDDATE(CURDATE(), INTERVAL 1 YEAR)
+--------------
+
++--------+-----------+-----------+----------+--------+-------------+------------+------------+
+| persID | fNamePers | lNamePers | superNum | passID | passCountry | expiryDate | doB        |
++--------+-----------+-----------+----------+--------+-------------+------------+------------+
+|     45 | Todd      | Flanders  | US23     | US23   | USA         | 2018-03-03 | 1940-06-24 |
+|     78 | Dwight    | Schrute   | US89     | US89   | Germany     | 2022-02-02 | 1976-04-08 |
+|     79 | Pam       | Beesly    | US90     | US90   | Italy       | 2020-02-28 | 1980-04-04 |
++--------+-----------+-----------+----------+--------+-------------+------------+------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT passenger.fNamePers, passenger.lNamePers, busTrip.tripName FROM passenger JOIN booking ON passenger.persID=booking.superPersID
+JOIN busTrip ON booking.superTripID=busTrip.tripID WHERE passenger.lNamePers LIKE "s%"
+--------------
+
++-----------+-----------+----------------------------+
+| fNamePers | lNamePers | tripName                   |
++-----------+-----------+----------------------------+
+| Homer     | Simpson   | Castles of Germany         |
+| Marge     | Simpson   | Castles of Germany         |
+| Bart      | Simpson   | Castles of Germany         |
+| Lisa      | Simpson   | Castles of Germany         |
+| Maggie    | Simpson   | Castles of Germany         |
+| Dwight    | Schrute   | Castles of Germany         |
+| Dwight    | Schrute   | Beaches Galore             |
+| Homer     | Simpson   | Arrivaderci Roma           |
+| Marge     | Simpson   | Arrivaderci Roma           |
+| Bart      | Simpson   | Arrivaderci Roma           |
+| Lisa      | Simpson   | Arrivaderci Roma           |
+| Maggie    | Simpson   | Arrivaderci Roma           |
+| Homer     | Simpson   | Shetland and Orkney        |
+| Michael   | Scott     | Shetland and Orkney        |
+| Bart      | Simpson   | Disney World and Sea World |
+| Lisa      | Simpson   | Disney World and Sea World |
+| Louis     | Salvatore | You're Going to Brazil     |
++-----------+-----------+----------------------------+
+17 rows in set (0.00 sec)
+
+--------------
+SELECT busTrip.tripName, busTrip.tripID, COUNT(booking.superTripID) FROM booking INNER JOIN busTrip ON booking.superTripID=busTrip.tripID WHERE busTrip.tripName="Castles of Germany"
+--------------
+
++--------------------+--------+----------------------------+
+| tripName           | tripID | COUNT(booking.superTripID) |
++--------------------+--------+----------------------------+
+| Castles of Germany |      1 |                          7 |
++--------------------+--------+----------------------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT busTrip.destination, SUM(booking.bookPrice) FROM busTrip INNER JOIN booking ON busTrip.tripID=booking.superTripID GROUP BY booking.superTripID
+--------------
+
++-------------+------------------------+
+| destination | SUM(booking.bookPrice) |
++-------------+------------------------+
+| Germany     |                2750.99 |
+| Bermuda     |                   1200 |
+| Italy       |                   1500 |
+| UK          |                   1200 |
+| USA         |                   1200 |
+| Brazil      |                    420 |
++-------------+------------------------+
+6 rows in set (0.00 sec)
+
+--------------
+SELECT passenger.fNamePers, passenger.lNamePers, passport.passCountry, busTrip.tripName, busTrip.destination
+FROM passport JOIN passenger ON passenger.superNum=passport.passID JOIN booking ON passenger.persID=booking.superPersID
+JOIN busTrip ON booking.superTripID=busTrip.tripID WHERE passport.passCountry!=busTrip.destination
+--------------
+
++-----------+-----------+-------------+------------------------+-------------+
+| fNamePers | lNamePers | passCountry | tripName               | destination |
++-----------+-----------+-------------+------------------------+-------------+
+| Homer     | Simpson   | USA         | Castles of Germany     | Germany     |
+| Marge     | Simpson   | USA         | Castles of Germany     | Germany     |
+| Bart      | Simpson   | USA         | Castles of Germany     | Germany     |
+| Lisa      | Simpson   | USA         | Castles of Germany     | Germany     |
+| Maggie    | Simpson   | USA         | Castles of Germany     | Germany     |
+| Dwight    | Schrute   | Germany     | Beaches Galore         | Bermuda     |
+| Creed     | Bratton   | Germany     | Beaches Galore         | Bermuda     |
+| Homer     | Simpson   | USA         | Arrivaderci Roma       | Italy       |
+| Marge     | Simpson   | USA         | Arrivaderci Roma       | Italy       |
+| Bart      | Simpson   | USA         | Arrivaderci Roma       | Italy       |
+| Lisa      | Simpson   | USA         | Arrivaderci Roma       | Italy       |
+| Maggie    | Simpson   | USA         | Arrivaderci Roma       | Italy       |
+| Homer     | Simpson   | USA         | Shetland and Orkney    | UK          |
+| Ned       | Flanders  | USA         | Shetland and Orkney    | UK          |
+| Michael   | Scott     | Canada      | Shetland and Orkney    | UK          |
+| Louis     | Salvatore | New Reno    | You're Going to Brazil | Brazil      |
++-----------+-----------+-------------+------------------------+-------------+
+16 rows in set (0.00 sec)
+
+--------------
+SELECT booking.superPersID, busTrip.tripID, busTrip.tripName FROM busTrip LEFT JOIN booking ON busTrip.tripID = booking.superTripID
+UNION
+SELECT booking.superPersID, busTrip.tripID, busTrip.tripName FROM busTrip RIGHT JOIN booking ON busTrip.tripID = booking.superTripID
+WHERE booking.superPersID != NULL
+--------------
+
++-------------+--------+----------------------------+
+| superPersID | tripID | tripName                   |
++-------------+--------+----------------------------+
+|          11 |      1 | Castles of Germany         |
+|          22 |      1 | Castles of Germany         |
+|          33 |      1 | Castles of Germany         |
+|          34 |      1 | Castles of Germany         |
+|          35 |      1 | Castles of Germany         |
+|          66 |      1 | Castles of Germany         |
+|          78 |      1 | Castles of Germany         |
+|        NULL |      2 | Tuscany Sunsets            |
+|        NULL |      3 | California Wines           |
+|          78 |      4 | Beaches Galore             |
+|          80 |      4 | Beaches Galore             |
+|        NULL |      5 | Cottage Country            |
+|          11 |      6 | Arrivaderci Roma           |
+|          22 |      6 | Arrivaderci Roma           |
+|          33 |      6 | Arrivaderci Roma           |
+|          34 |      6 | Arrivaderci Roma           |
+|          35 |      6 | Arrivaderci Roma           |
+|          11 |      7 | Shetland and Orkney        |
+|          44 |      7 | Shetland and Orkney        |
+|          77 |      7 | Shetland and Orkney        |
+|          33 |      8 | Disney World and Sea World |
+|          34 |      8 | Disney World and Sea World |
+|          44 |      8 | Disney World and Sea World |
+|          45 |      8 | Disney World and Sea World |
+|        NULL |      9 | Athos: The Holy Mountain   |
+|          91 |     10 | You're Going to Brazil     |
++-------------+--------+----------------------------+
+26 rows in set (0.00 sec)
+
+--------------
+SELECT passenger.fNamePers, passenger.lNamePers, passport.passCountry, SUM(booking.bookPrice) FROM passenger INNER JOIN booking ON passenger.persID=booking.superPersID
+JOIN passport ON passport.passID=passenger.superNum GROUP BY passenger.persID ORDER BY SUM(booking.bookPrice) DESC LIMIT 1
+--------------
+
++-----------+-----------+-------------+------------------------+
+| fNamePers | lNamePers | passCountry | SUM(booking.bookPrice) |
++-----------+-----------+-------------+------------------------+
+| Homer     | Simpson   | USA         |                   1400 |
++-----------+-----------+-------------+------------------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT busTrip.tripName FROM busTrip INNER JOIN booking ON busTrip.tripID=booking.superTripID GROUP BY busTrip.tripID HAVING COUNT(booking.superTripID)<4
+--------------
+
++------------------------+
+| tripName               |
++------------------------+
+| Beaches Galore         |
+| Shetland and Orkney    |
+| You're Going to Brazil |
++------------------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT busTrip.tripName AS "Bus Trip Name", COUNT(booking.superTripID) AS "Current Number of Passengers", busTrip.superLPlate AS "Current Bus Assigned License Plate",
+bus.capacity AS "Capacity of Assigned Bus" FROM booking JOIN busTrip ON busTrip.tripID=booking.superTripID JOIN bus ON busTrip.superLPlate=bus.lPlateNo GROUP BY busTrip.tripID
+HAVING COUNT(booking.superTripID)>bus.capacity
+--------------
+
++------------------+------------------------------+------------------------------------+--------------------------+
+| Bus Trip Name    | Current Number of Passengers | Current Bus Assigned License Plate | Capacity of Assigned Bus |
++------------------+------------------------------+------------------------------------+--------------------------+
+| Arrivaderci Roma |                            5 | TAXI111                            |                        4 |
++------------------+------------------------------+------------------------------------+--------------------------+
+1 row in set (0.00 sec)
+
+Bye
